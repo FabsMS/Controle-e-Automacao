@@ -1,23 +1,3 @@
-// =============================================================================
-//  Estudo Dirigido - Controle e Automacao I
-//  Etapa 01 - Fundamentos Teoricos
-//  Simulacoes em Scilab
-//
-//  Autores: Fabricio Moreno da Silva
-//           Ynnayron Juan Lopes da Silva
-//
-//  Instituicao: IFPB - Campus Campina Grande
-//  Curso: Engenharia da Computacao
-//  Professor: Dr. Moacy Pereira da Silva
-//
-//  Execucao no Scilab:
-//    -> cd('caminho/para/simulacoes/scilab')
-//    -> exec('simulacoes_controle.sce', -1)
-//
-//  Observacao: este script reproduz em Scilab as mesmas cinco simulacoes
-//  desenvolvidas em Python. Os resultados numericos devem coincidir.
-// =============================================================================
-
 clc;
 clear;
 close;
