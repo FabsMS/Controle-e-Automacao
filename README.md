@@ -46,7 +46,6 @@ Cada etapa vai conter:
 ## O que vai ser visto em cada etapa?
 
 ### 🔹 Etapa 01 – Fundamentos
-Aqui é onde tudo começa:
 - função de transferência  
 - polos e zeros  
 - estabilidade  
@@ -55,7 +54,6 @@ Aqui é onde tudo começa:
 ---
 
 ### 🔹 Etapa 02 – Modelagem
-Agora começamos a conectar com o mundo real:
 - circuitos (tipo RLC)  
 - motores  
 - equações diferenciais  
@@ -64,7 +62,6 @@ Agora começamos a conectar com o mundo real:
 ---
 
 ### 🔹 Etapa 03 – Controle (PID)
-Parte mais interessante 👀:
 - malha fechada  
 - controlador PID  
 - ajuste de parâmetros  
@@ -73,7 +70,6 @@ Parte mais interessante 👀:
 ---
 
 ### 🔹 Etapa 04 – Automação
-Aqui entra mais o lado industrial:
 - sensores  
 - CLPs  
 - sistemas supervisórios  
