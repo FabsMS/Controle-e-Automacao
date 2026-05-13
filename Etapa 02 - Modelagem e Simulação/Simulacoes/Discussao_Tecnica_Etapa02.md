@@ -263,7 +263,3 @@ O modelo linear adotado ao longo desta etapa é adequado para os fins da discipl
 
 Essas limitações não invalidam a abordagem linear para o escopo desta disciplina, mas sinalizam que, em projetos industriais avançados, técnicas de controle não-linear ou adaptativo podem ser necessárias para garantir desempenho e robustez adequados.
 
----
-
-*Arquivo gerado como discussão técnica complementar ao documento principal da Etapa 02.*
-*Os gráficos referenciados estão disponíveis na pasta `resultados/` do repositório.*
