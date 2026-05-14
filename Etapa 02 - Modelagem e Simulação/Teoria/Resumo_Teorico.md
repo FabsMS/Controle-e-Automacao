@@ -31,7 +31,7 @@ O objetivo central desta etapa é derivar formalmente as equações que governam
 
 > Como a variação dos parâmetros físicos de um motor CC — momento de inércia $J$, atrito viscoso $b$, indutância $L$, resistência $R$ e constante de torque $K_m$ — altera a posição dos polos, o ganho DC e a velocidade de resposta do sistema? E quais dessas variações podem comprometer a estabilidade ou tornar o sistema subamortecido?
 
-**Resposta resumida:** a posição dos polos depende diretamente dos parâmetros físicos. Aumentar $J$ desloca o polo dominante para próximo da origem, tornando o sistema mais lento sem afetar o ganho DC. Aumentar $b$ move os polos para a esquerda e reduz o ganho DC. Aumentar $K_m$ eleva o ganho, mas pode introduzir componentes imaginárias nos polos, tornando o sistema subamortecido. Em todos os cenários com parâmetros físicos positivos, o sistema permanece **BIBO-estável** em malha aberta — justificativa formal apresentada na Seção 4.
+**Resposta resumida:** a posição dos polos depende diretamente dos parâmetros físicos. Aumentar $J$ desloca o polo dominante para próximo da origem, tornando o sistema mais lento sem afetar o ganho DC. Aumentar $b$ move os polos para a esquerda e reduz o ganho DC. Aumentar $K_m$ eleva o ganho, mas pode introduzir componentes imaginárias nos polos, tornando o sistema subamortecido. Em todos os cenários com parâmetros físicos positivos, o sistema permanece **BIBO-estável** em malha aberta — justificativa formal apresentada na Seção 6.5.
 
 ---
 
@@ -42,7 +42,7 @@ Um motor CC de excitação separada é composto por dois subsistemas fisicamente
 - **Subsistema elétrico:** circuito de armadura, regido pela Lei de Kirchhoff das Tensões (LKT);
 - **Subsistema mecânico:** eixo rotativo com carga, regido pela 2ª Lei de Newton para sistemas rotativos.
 
-O acoplamento entre os dois subsistemas ocorre por meio do **torque eletromagnético** $T_{em} = K_m \, i(t)$ e da **força contra-eletromotriz (fcem)** $e_b(t) = K_b \, \omega(t)$.
+O acoplamento entre os dois subsistemas ocorre por meio do **torque eletromagnético** $T_{em} = K_m \cdot i(t)$ e da **força contra-eletromotriz (fcem)** $e_b(t) = K_b \cdot \omega(t)$.
 
 ### 2.1 Parâmetros do modelo
 
@@ -68,25 +68,21 @@ Os valores nominais são os mesmos adotados na Etapa 01 (Franklin; Ogata) e serv
 
 Aplicando a **Lei de Kirchhoff das Tensões (LKT)** na malha de armadura e substituindo a expressão da fcem:
 
-$$
-v(t) = R\,i(t) + L\,\frac{di(t)}{dt} + K_b\,\omega(t)
-$$
+$$v(t) = R \cdot i(t) + L \cdot \frac{di(t)}{dt} + K_b \cdot \omega(t)$$
 
 Esta é uma EDO de 1ª ordem em $i(t)$, com $\omega(t)$ atuando como termo de acoplamento. A fcem representa a conversão de energia mecânica em tensão elétrica e constitui o mecanismo de **realimentação interna** do motor.
 
 ### 3.2 Subsistema Mecânico
 
-Aplicando a **2ª Lei de Newton para sistemas rotativos** ao eixo do motor, com torque eletromagnético $T_{em} = K_m\,i(t)$ e torque resistivo de atrito viscoso $b\,\omega(t)$:
+Aplicando a **2ª Lei de Newton para sistemas rotativos** ao eixo do motor, com torque eletromagnético $T_{em} = K_m \cdot i(t)$ e torque resistivo de atrito viscoso $b \cdot \omega(t)$:
 
-$$
-J\,\frac{d\omega(t)}{dt} + b\,\omega(t) = K_m\,i(t)
-$$
+$$J \cdot \frac{d\omega(t)}{dt} + b \cdot \omega(t) = K_m \cdot i(t)$$
 
 Esta é uma EDO de 1ª ordem em $\omega(t)$, com $i(t)$ como termo de entrada proveniente do subsistema elétrico.
 
 ### 3.3 Sistema Acoplado
 
-As duas equações formam um **sistema acoplado de duas EDOs de 1ª ordem**. A corrente $i(t)$ é a variável de ligação: ela é determinada pela equação elétrica e, ao mesmo tempo, gera o torque na equação mecânica. Esse acoplamento bidirecional é o que torna o modelo de 2ª ordem (e não a simples soma de dois sistemas de 1ª ordem independentes).
+As duas equações formam um **sistema acoplado de duas EDOs de 1ª ordem**. A corrente $i(t)$ é a variável de ligação: ela é determinada pela equação elétrica e, ao mesmo tempo, gera o torque na equação mecânica. Esse acoplamento bidirecional é o que torna o modelo de 2ª ordem — e não a simples soma de dois sistemas de 1ª ordem independentes.
 
 ---
 
@@ -96,63 +92,43 @@ As duas equações formam um **sistema acoplado de duas EDOs de 1ª ordem**. A c
 
 Aplicando a Transformada de Laplace nas equações das Seções 3.1 e 3.2, com condições iniciais nulas:
 
-$$
-V(s) = (Ls + R)\,I(s) + K_b\,\Omega(s)
-$$
+$$V(s) = (Ls + R) \cdot I(s) + K_b \cdot \Omega(s)$$
 
-$$
-I(s) = \frac{(Js + b)\,\Omega(s)}{K_m}
-$$
+$$I(s) = \frac{(Js + b) \cdot \Omega(s)}{K_m}$$
 
 Substituindo a segunda na primeira para eliminar $I(s)$ e isolando $\Omega(s)/V(s)$:
 
-$$
-\boxed{\; \frac{\Omega(s)}{V(s)} = \frac{K_m}{(Ls + R)(Js + b) + K_m K_b} \;}
-$$
+$$\frac{\Omega(s)}{V(s)} = \frac{K_m}{(Ls + R)(Js + b) + K_m K_b}$$
 
 ### 4.2 Forma expandida
 
 Expandindo o denominador:
 
-$$
-G(s) = \frac{K_m}{LJ\,s^2 + (Lb + RJ)\,s + (Rb + K_m K_b)}
-$$
+$$G(s) = \frac{K_m}{LJ \cdot s^2 + (Lb + RJ) \cdot s + (Rb + K_m K_b)}$$
 
 ### 4.3 Substituição numérica
 
-Calculando os coeficientes com os valores nominais:
+Calculando os coeficientes com os valores nominais da Tabela 1:
 
-$$
-LJ = 0{,}005 \qquad Lb + RJ = 0{,}06 \qquad Rb + K_m K_b = 0{,}1001
-$$
+$$LJ = 0{,}005 \qquad Lb + RJ = 0{,}06 \qquad Rb + K_m K_b = 0{,}1001$$
 
-$$
-G(s) = \frac{0{,}01}{0{,}005\,s^2 + 0{,}06\,s + 0{,}1001}
-$$
+$$G(s) = \frac{0{,}01}{0{,}005 \cdot s^2 + 0{,}06 \cdot s + 0{,}1001}$$
 
-Dividindo por $0{,}005$ para obter a forma canônica:
+Dividindo numerador e denominador por $0{,}005$ para obter a forma canônica:
 
-$$
-G(s) = \frac{2{,}0}{s^2 + 12{,}0\,s + 20{,}02}
-$$
+$$G(s) = \frac{2{,}0}{s^2 + 12{,}0 \cdot s + 20{,}02}$$
 
 ### 4.4 Polos e ganho DC
 
-Os polos são as raízes de $D(s) = s^2 + 12{,}0\,s + 20{,}02 = 0$:
+Os polos são as raízes de $D(s) = s^2 + 12{,}0 \cdot s + 20{,}02 = 0$:
 
-$$
-p_1 \approx -2{,}003 \quad \text{(polo dominante, } \tau_1 \approx 0{,}499 \text{ s)}
-$$
+$$p_1 \approx -2{,}003 \quad \text{(polo dominante,} \quad \tau_1 \approx 0{,}499 \text{ s)}$$
 
-$$
-p_2 \approx -9{,}997 \quad \text{(polo rápido, } \tau_2 \approx 0{,}100 \text{ s)}
-$$
+$$p_2 \approx -9{,}997 \quad \text{(polo rápido,} \quad \tau_2 \approx 0{,}100 \text{ s)}$$
 
 O ganho DC (valor final da resposta ao degrau unitário) é:
 
-$$
-G(0) = \frac{K_m}{R\,b + K_m K_b} = \frac{0{,}01}{0{,}1001} \approx 0{,}0999 \;\text{rad/(s·V)}
-$$
+$$G(0) = \frac{K_m}{R \cdot b + K_m K_b} = \frac{0{,}01}{0{,}1001} \approx 0{,}0999 \text{ rad/(s·V)}$$
 
 Ambos os polos são **reais e negativos**, confirmando a estabilidade BIBO em malha aberta. O polo dominante $p_1$ determina a dinâmica predominante: o tempo de acomodação é $t_s \approx 4\tau_1 \approx 2{,}0$ s, e o sistema é **superamortecido** (sem sobressinal).
 
@@ -164,37 +140,37 @@ Ambos os polos são **reais e negativos**, confirmando a estabilidade BIBO em ma
 
 Definindo $x_1 = i(t)$ e $x_2 = \omega(t)$ como variáveis de estado e $u = v(t)$ como entrada, o sistema acoplado (Seção 3) pode ser reescrito na forma matricial $\dot{x} = Ax + Bu$:
 
-$$
+```math
 \begin{bmatrix} \dot{x}_1 \\ \dot{x}_2 \end{bmatrix}
 =
 \begin{bmatrix} -R/L & -K_b/L \\ K_m/J & -b/J \end{bmatrix}
 \begin{bmatrix} x_1 \\ x_2 \end{bmatrix}
 +
 \begin{bmatrix} 1/L \\ 0 \end{bmatrix} u
-$$
+```
 
 ### 5.2 Forma numérica
 
-Substituindo os valores nominais:
+Substituindo os valores nominais da Tabela 1:
 
-$$
+```math
 \begin{bmatrix} \dot{x}_1 \\ \dot{x}_2 \end{bmatrix}
 =
 \begin{bmatrix} -2{,}0 & -0{,}02 \\ 1{,}0 & -10{,}0 \end{bmatrix}
 \begin{bmatrix} x_1 \\ x_2 \end{bmatrix}
 +
 \begin{bmatrix} 2{,}0 \\ 0 \end{bmatrix} u
-$$
+```
 
 ### 5.3 Relação com a função de transferência
 
-Os **autovalores da matriz $A$** coincidem com os polos da função de transferência (2ª Seção):
+Os **autovalores da matriz $A$** coincidem com os polos da função de transferência, pois ambos são raízes do mesmo polinômio característico $D(s)$:
 
-$$
-\det(\lambda I - A) = 0 \;\Longrightarrow\; \lambda_1 \approx -2{,}003, \quad \lambda_2 \approx -9{,}997
-$$
+```math
+\det(\lambda I - A) = 0 \implies \lambda_1 \approx -2{,}003, \quad \lambda_2 \approx -9{,}997
+```
 
-Essa equivalência confirma que as duas representações descrevem o mesmo sistema. A diferença é que a representação em espaço de estados fornece também acesso às variáveis internas (corrente e velocidade), enquanto a função de transferência descreve apenas a relação entrada–saída.
+Essa equivalência confirma que as duas representações descrevem o mesmo sistema. A diferença é que a representação em espaço de estados fornece acesso às variáveis internas (corrente e velocidade), enquanto a função de transferência descreve apenas a relação entrada–saída.
 
 ---
 
@@ -223,7 +199,7 @@ O parâmetro $J$ aparece nos coeficientes $LJ$ (de $s^2$) e $RJ$ (de $s$) do den
 
 ### 6.2 Variação do atrito viscoso $b$
 
-O coeficiente $b$ aparece no denominador e no ganho DC. Aumentar $b$ move os polos para a esquerda (**resposta mais rápida**) e simultaneamente **reduz o ganho DC** — há um compromisso intrínseco: maior atrito resulta em regime permanente menor e resposta mais veloz.
+O coeficiente $b$ aparece no denominador e no ganho DC. Aumentar $b$ move os polos para a esquerda (**resposta mais rápida**) e simultaneamente **reduz o ganho DC** — há um compromisso intrínseco: maior atrito resulta em menor velocidade de regime e resposta mais veloz.
 
 ### 6.3 Variação da indutância $L$
 
@@ -242,11 +218,17 @@ $K_m$ é o parâmetro de acoplamento entre os subsistemas. Para valores suficien
 
 ### 6.5 Estabilidade robusta — critério de Routh-Hurwitz
 
-Para o denominador $D(s) = LJ\,s^2 + (Lb + RJ)\,s + (Rb + K_m K_b)$, todos os coeficientes são **estritamente positivos** para quaisquer valores físicos positivos dos parâmetros. Pelo critério de Routh-Hurwitz aplicado a polinômios de 2ª ordem, essa é condição **necessária e suficiente** para que ambas as raízes tenham parte real negativa. Portanto:
+Para o denominador $D(s) = LJ \cdot s^2 + (Lb + RJ) \cdot s + (Rb + K_m K_b)$, todos os coeficientes são **estritamente positivos** para quaisquer valores físicos positivos dos parâmetros. A tabela de Routh para um polinômio de 2ª ordem é:
 
-$$
-\boxed{\; \text{O motor CC em malha aberta é } \textbf{sempre BIBO-estável} \text{ para parâmetros físicos positivos.} \;}
-$$
+| Linha | Coluna 1 | Coluna 2 |
+|---|---|---|
+| $s^2$ | $LJ > 0$ | $Rb + K_m K_b > 0$ |
+| $s^1$ | $Lb + RJ > 0$ | $0$ |
+| $s^0$ | $Rb + K_m K_b > 0$ | — |
+
+Não há trocas de sinal na primeira coluna, portanto **todas as raízes têm parte real negativa**. Conclui-se:
+
+> **O motor CC em malha aberta é sempre BIBO-estável para parâmetros físicos positivos.**
 
 ---
 
